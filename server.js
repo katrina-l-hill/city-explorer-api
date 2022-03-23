@@ -3,9 +3,9 @@
 console.log('my first server');
 // REQUIRE
 // In our servers, we have to use 'require' instead of import. Here we will list the requirements for the server.
-let express = require('express');
+const express = require('express');
 require('dotenv').config();
-let data = request('./data/weather.json');
+let data = require('./data/weather.json');
 
 // we must include cors if we want to share resources over the web
 const cors = require('cors');
@@ -17,6 +17,7 @@ const cors = require('cors');
 const app = express();
 
 // use cors
+
 app.use(cors());
 
 // define PORT and validate that my .env file is working.

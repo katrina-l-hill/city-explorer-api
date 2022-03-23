@@ -43,7 +43,8 @@
                 "temp": 7.5,
                 "min_temp": 5,
                 "clouds_mid": 8,
-                "clouds_low": 58
+                "clouds_low": 58,
+                "name": "seattle"
             },
             {
                 "moonrise_ts": 1616621240,

@@ -51,7 +51,7 @@ app.get('/weather', (request, response) => {
         let cityObject = data.find(weather => weather.city_name === city_name);
         let selectedCity = new City(cityObject);
         response.send(selectedCity);
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 });

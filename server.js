@@ -46,10 +46,11 @@ app.get('/weather', (request, response) => {
         let city_name = request.query.city_name;
         let cityObject = data.find(weather => weather.city_name.toLocaleLowerCase() === city_name.toLocaleLowerCase());
         let selectedCity = new City(cityObject);
-        //map over selectedCity.data
-            //create a Forecast object passing in the date and description of the data object
-
-        response.send(selectedCity);
+        let forecastArray = [];
+        selectedCity.data.map((dataItem) =>{
+            forecastArray.push(new Forecast(dataItem.valid_date, dataItem.weather.description));
+        });
+        response.send(forecastArray);
     } catch (error) {
         next(error);
     }

@@ -37,23 +37,26 @@ app.get('/', (request, response) => {
 
 app.get('/sayHello', (request, response) => {
     let name = request.query.name;
-    let lastName = request.query.name;
-    response.send(`Hello ${name} $lastName}`);
-});
-
-app.get('*', (request, response) => {
-    response.send('what you are looking for doesn\'t exist.');
+    let lastName = request.query.lastName;
+    response.send(`Hello ${name} ${lastName}`);
 });
 
 app.get('/weather', (request, response) => {
     try {
         let city_name = request.query.city_name;
-        let cityObject = data.find(weather => weather.city_name === city_name);
+        let cityObject = data.find(weather => weather.city_name.toLocaleLowerCase() === city_name.toLocaleLowerCase());
         let selectedCity = new City(cityObject);
+        //map over selectedCity.data
+            //create a Forecast object passing in the date and description of the data object
+
         response.send(selectedCity);
     } catch (error) {
         next(error);
     }
+});
+
+app.get('*', (request, response) => {
+    response.send('what you are looking for doesn\'t exist.');
 });
 
 // ERRORS
@@ -65,8 +68,19 @@ app.use((error, request, response, next) => {
 // CLASSES
 class City {
     constructor(cityObject) {
-        this.name = cityObject.name;
         this.city_name = cityObject.city_name;
+        this.data = cityObject.data;
+        this.lon = cityObject.lon;
+        this.lat = cityObject.lat;
+        this.country_code = cityObject.country_code;
+        this.state_code = cityObject.state_code;
+    }
+}
+
+class Forecast {
+    constructor(date, description) {
+        this.date = date;
+        this.description = description;
     }
 }
 

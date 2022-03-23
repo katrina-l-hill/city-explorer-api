@@ -3,16 +3,21 @@
 console.log('my first server');
 // REQUIRE
 // In our servers, we have to use 'require' instead of import. Here we will list the requirements for the server.
+let express = require('express');
+require('dotenv').config();
 let data = request('./data/weather.json');
 
-const express = require('express');
-require('dotenv').config();
+// we must include cors if we want to share resources over the web
+const cors = require('cors');
 
 // USE
 // Once we have required something, we have to use it. This is where we assign the required field a variable. React does this in one step wtih "import." Node/Express takes 2 steps; 'require' and 'use'.
 
 // Instantiate express. Create an instance of express called 'app'.
 const app = express();
+
+// use cors
+app.use(cors());
 
 // define PORT and validate that my .env file is working.
 // Tell JS to use the port value in the .env file. If not, use 3002.
@@ -52,6 +57,9 @@ app.get('/weather', (request, response) => {
 
 // ERRORS
 // Handle errors
+app.use((error, request, response, next) => {
+    response.status(500).send(error.message);
+})
 
 // CLASSES
 class City {

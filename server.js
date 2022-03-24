@@ -36,7 +36,7 @@ app.get('/', (request, response) => {
     response.send('hello, from our server!');
 });
 
-app.get('/weather', async (request, response) => {
+app.get('/weather', async (request, response, next) => {
     try {
         let lat = request.query.lat;
         let lon = request.query.lon;

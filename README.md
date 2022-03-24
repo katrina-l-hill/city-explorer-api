@@ -29,5 +29,5 @@ Finish time: _10:45pm_(3/22/22)_5:00pm_(3/23/22)_
 Actual time needed to complete: _~5 hours. I have a lot more work to do to complete this assignment.__
 
 ## WRRC
-![WRRC - Lab06](Lab 06 (1).jpg)
+![WRRC - Lab06](WRRC.jpg)
 ![WRRC - Lab07](WRRC2.png)

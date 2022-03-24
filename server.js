@@ -36,40 +36,13 @@ app.get('/', (request, response) => {
     response.send('hello, from our server!');
 });
 
-app.get('/sayHello', (request, response) => {
-    let name = request.query.name;
-    let lastName = request.query.lastName;
-    response.send(`Hello ${name} ${lastName}`);
-});
-
-app.get('/weather', (request, response) => {
+app.get('/weather', async (request, response) => {
     try {
-        let lat = parseFloat(request.query.lat);
-        let lon = parseFloat(request.query.lon);
-        let tolerance = 0.1;
-        let minLat = lat - tolerance;
-        let minLon = lon - tolerance;
-        let maxLat = lat + tolerance;
-        let maxLon = lon + tolerance;
-        let cityObject = data.find(city => parseFloat(city.lon) > minLon && parseFloat(city.lon) < maxLon
-            && parseFloat(city.lat) > minLat && parseFloat(city.lat) < maxLat);
-        console.log(`${minLat}, ${maxLat}, ${minLon}, ${maxLon}`);
-        let count = 1;
-        while (cityObject == null && count < 180) {
-            //console.log(count);
-            console.log(`${minLat}, ${maxLat}, ${minLon}, ${maxLon}`);
-            tolerance += 1;
-            minLat = lat - tolerance;
-            minLon = lon - tolerance;
-            maxLat = lat + tolerance;
-            maxLon = lon + tolerance;
-            let cityObject = data.find(city => parseFloat(city.lon) > minLon && parseFloat(city.lon) < maxLon
-            && parseFloat(city.lat) > minLat && parseFloat(city.lat) < maxLat);
-            count++;
-        }
-        let selectedCity = new City(cityObject);
+        let lat = request.query.lat;
+        let lon = request.query.lon;
+        let apiForecasts = await axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`);
         let forecastArray = [];
-        selectedCity.data.map((dataItem) => {
+        apiForecasts.data.data.map((dataItem) => {
             forecastArray.push(new Forecast(dataItem.valid_date, dataItem.weather.description));
         });
         response.send(forecastArray);

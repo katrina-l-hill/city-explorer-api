@@ -44,14 +44,32 @@ app.get('/sayHello', (request, response) => {
 
 app.get('/weather', (request, response) => {
     try {
-        let lat = request.query.lat;
-        let lon = request.query.lon;
-        let city_name = request.query.city_name;
-        //let cityObject = data.find(weather => weather.city_name.toLocaleLowerCase() === city_name.toLocaleLowerCase());
-        let cityObject = data.find(city => city.lon === lon && city.lat === lat);
+        let lat = parseFloat(request.query.lat);
+        let lon = parseFloat(request.query.lon);
+        let tolerance = 0.1;
+        let minLat = lat - tolerance;
+        let minLon = lon - tolerance;
+        let maxLat = lat + tolerance;
+        let maxLon = lon + tolerance;
+        let cityObject = data.find(city => parseFloat(city.lon) > minLon && parseFloat(city.lon) < maxLon
+            && parseFloat(city.lat) > minLat && parseFloat(city.lat) < maxLat);
+        console.log(`${minLat}, ${maxLat}, ${minLon}, ${maxLon}`);
+        let count = 1;
+        while (cityObject == null && count < 180) {
+            //console.log(count);
+            console.log(`${minLat}, ${maxLat}, ${minLon}, ${maxLon}`);
+            tolerance += 1;
+            minLat = lat - tolerance;
+            minLon = lon - tolerance;
+            maxLat = lat + tolerance;
+            maxLon = lon + tolerance;
+            let cityObject = data.find(city => parseFloat(city.lon) > minLon && parseFloat(city.lon) < maxLon
+            && parseFloat(city.lat) > minLat && parseFloat(city.lat) < maxLat);
+            count++;
+        }
         let selectedCity = new City(cityObject);
         let forecastArray = [];
-        selectedCity.data.map((dataItem) =>{
+        selectedCity.data.map((dataItem) => {
             forecastArray.push(new Forecast(dataItem.valid_date, dataItem.weather.description));
         });
         response.send(forecastArray);

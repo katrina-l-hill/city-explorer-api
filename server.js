@@ -50,6 +50,18 @@ app.get('/weather', async (request, response, next) => {
         next(error);
     }
 });
+app.get('/movies', async (request, response, next) => {
+    try {
+        let cityQuery = request.query.city_name;
+        console.log(cityQuery);
+        let movieResponse = await axios.get(`https://api.themoviedb.org/3/movie/550?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
+        response.send(movieResponse.data);
+    } catch (error) {
+        console.log("error");
+        next(error);
+    }
+});
+
 
 app.get('*', (request, response) => {
     response.send('what you are looking for doesn\'t exist.');

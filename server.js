@@ -75,6 +75,7 @@ class City {
         this.lat = cityObject.lat;
         this.country_code = cityObject.country_code;
         this.state_code = cityObject.state_code;
+        this.forecast = cityObject.forecastArray;
     }
 }
 

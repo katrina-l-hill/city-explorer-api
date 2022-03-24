@@ -4,6 +4,7 @@ console.log('my first server');
 // REQUIRE
 // In our servers, we have to use 'require' instead of import. Here we will list the requirements for the server.
 const express = require('express');
+const axios = require('axios');
 require('dotenv').config();
 let data = require('./data/weather.json');
 
@@ -43,8 +44,11 @@ app.get('/sayHello', (request, response) => {
 
 app.get('/weather', (request, response) => {
     try {
+        let lat = request.query.lat;
+        let lon = request.query.lon;
         let city_name = request.query.city_name;
-        let cityObject = data.find(weather => weather.city_name.toLocaleLowerCase() === city_name.toLocaleLowerCase());
+        //let cityObject = data.find(weather => weather.city_name.toLocaleLowerCase() === city_name.toLocaleLowerCase());
+        let cityObject = data.find(city => city.lon === lon && city.lat === lat);
         let selectedCity = new City(cityObject);
         let forecastArray = [];
         selectedCity.data.map((dataItem) =>{

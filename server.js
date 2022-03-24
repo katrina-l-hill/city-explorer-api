@@ -3,9 +3,9 @@
 console.log('my first server');
 // REQUIRE
 // In our servers, we have to use 'require' instead of import. Here we will list the requirements for the server.
-let express = require('express');
+const express = require('express');
 require('dotenv').config();
-let data = request('./data/weather.json');
+let data = require('./data/weather.json');
 
 // we must include cors if we want to share resources over the web
 const cors = require('cors');
@@ -17,6 +17,7 @@ const cors = require('cors');
 const app = express();
 
 // use cors
+
 app.use(cors());
 
 // define PORT and validate that my .env file is working.
@@ -36,23 +37,27 @@ app.get('/', (request, response) => {
 
 app.get('/sayHello', (request, response) => {
     let name = request.query.name;
-    let lastName = request.query.name;
-    response.send(`Hello ${name} $lastName}`);
-});
-
-app.get('*', (request, response) => {
-    response.send('what you are looking for doesn\'t exist.');
+    let lastName = request.query.lastName;
+    response.send(`Hello ${name} ${lastName}`);
 });
 
 app.get('/weather', (request, response) => {
     try {
         let city_name = request.query.city_name;
-        let cityObject = data.find(weather => weather.city_name === city_name);
+        let cityObject = data.find(weather => weather.city_name.toLocaleLowerCase() === city_name.toLocaleLowerCase());
         let selectedCity = new City(cityObject);
-        response.send(selectedCity);
-    } catch(error) {
+        let forecastArray = [];
+        selectedCity.data.map((dataItem) =>{
+            forecastArray.push(new Forecast(dataItem.valid_date, dataItem.weather.description));
+        });
+        response.send(forecastArray);
+    } catch (error) {
         next(error);
     }
+});
+
+app.get('*', (request, response) => {
+    response.send('what you are looking for doesn\'t exist.');
 });
 
 // ERRORS
@@ -64,8 +69,20 @@ app.use((error, request, response, next) => {
 // CLASSES
 class City {
     constructor(cityObject) {
-        this.name = cityObject.name;
         this.city_name = cityObject.city_name;
+        this.data = cityObject.data;
+        this.lon = cityObject.lon;
+        this.lat = cityObject.lat;
+        this.country_code = cityObject.country_code;
+        this.state_code = cityObject.state_code;
+        this.forecast = cityObject.forecastArray;
+    }
+}
+
+class Forecast {
+    constructor(date, description) {
+        this.date = date;
+        this.description = description;
     }
 }
 

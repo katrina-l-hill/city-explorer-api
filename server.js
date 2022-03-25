@@ -36,7 +36,7 @@ app.get('/', (request, response) => {
     response.send('hello, from our server!');
 });
 
-app.get('/weather', async (request, response) => {
+app.get('/weather', async (request, response, next) => {
     try {
         let lat = request.query.lat;
         let lon = request.query.lon;
@@ -50,6 +50,21 @@ app.get('/weather', async (request, response) => {
         next(error);
     }
 });
+app.get('/movies', async (request, response, next) => {
+    try {
+        let cityQuery = request.query.city_name;
+        let movieResponse = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
+        let movieArray = [];
+        movieResponse.data.results.map((movieItem) => {
+            movieArray.push(new Movie(movieItem));
+        });
+        console.log(movieResponse.data.results[0]);
+        response.send(movieArray);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 app.get('*', (request, response) => {
     response.send('what you are looking for doesn\'t exist.');
@@ -78,6 +93,24 @@ class Forecast {
     constructor(date, description) {
         this.date = date;
         this.description = description;
+    }
+}
+
+class Movie {
+    constructor(element) {
+        this.adult = element.adult;
+        this.backdrop_path = element.backdrop_path;
+        this.genre_ids = element.genre_ids;
+        this.original_language = element.original_language;
+        this.orginal_title = element.orginal_title;
+        this.overview = element.overview;
+        this.popularity = element.popularity;
+        this.poster_path = element.poster_path;
+        this.release_date = element.release_date;
+        this.title = element.title;
+        this.video = element.video;
+        this.vote_average = element.vote_average;
+        this.vote_count = element.vote_count;
     }
 }
 

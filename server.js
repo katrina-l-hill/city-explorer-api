@@ -6,9 +6,9 @@ console.log('my first server');
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
-// const weather = require('./Weather');
-// const movie = require('./movie');
-let data = require('./data/weather.json');
+const getWeather = require('./weather.js');
+const getMovie = require('./movie');
+// let data = require('./data/weather.json');
 
 
 // we must include cors if we want to share resources over the web
@@ -55,7 +55,7 @@ app.get('/weather', getWeather);
 //         next(error);
 //     }
 // });
-app.get('/movies', getWeather);
+app.get('/movie', getMovie);
 
 // async function getWeather (request, response, next) {
 //     try {
@@ -96,30 +96,30 @@ class City {
     }
 }
 
-class Forecast {
-    constructor(date, description) {
-        this.date = date;
-        this.description = description;
-    }
-}
+// This gets moved to the weather.js file
+// class Forecast {
+//     constructor(date, description) {
+//         this.date = date;
+//         this.description = description;
 
-class Movie {
-    constructor(element) {
-        this.adult = element.adult;
-        this.backdrop_path = element.backdrop_path;
-        this.genre_ids = element.genre_ids;
-        this.original_language = element.original_language;
-        this.orginal_title = element.orginal_title;
-        this.overview = element.overview;
-        this.popularity = element.popularity;
-        this.poster_path = element.poster_path;
-        this.release_date = element.release_date;
-        this.title = element.title;
-        this.video = element.video;
-        this.vote_average = element.vote_average;
-        this.vote_count = element.vote_count;
-    }
-}
+// This gets moved to the movie.js file
+// class Movie {
+//     constructor(element) {
+//         this.adult = element.adult;
+//         this.backdrop_path = element.backdrop_path;
+//         this.genre_ids = element.genre_ids;
+//         this.original_language = element.original_language;
+//         this.orginal_title = element.orginal_title;
+//         this.overview = element.overview;
+//         this.popularity = element.popularity;
+//         this.poster_path = element.poster_path;
+//         this.release_date = element.release_date;
+//         this.title = element.title;
+//         this.video = element.video;
+//         this.vote_average = element.vote_average;
+//         this.vote_count = element.vote_count;
+//     }
+// }
 
 // LISTEN
 // Start the server

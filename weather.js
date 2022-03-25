@@ -1,6 +1,8 @@
 'use strict'
 
-async function getWeather (request, response, next) {
+const axios = require('axios');
+
+async function getWeather(request, response, next) {
     try {
         let lat = request.query.lat;
         let lon = request.query.lon;
@@ -13,6 +15,11 @@ async function getWeather (request, response, next) {
     } catch (error) {
         next(error);
     }
-});
-
-module.exports = weather;
+};
+class Forecast {
+    constructor(date, description) {
+        this.date = date;
+        this.description = description;
+    }
+}
+module.exports = getWeather;

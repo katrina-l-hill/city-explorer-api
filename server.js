@@ -39,7 +39,7 @@ app.get('/', (request, response) => {
     response.send('hello, from our server!');
 });
 
-app.get('/weather', getWeather); 
+app.get('/weather', getWeather);
 
 // async function weather (request, response, next) {
 //     try {
@@ -80,7 +80,12 @@ app.get('*', (request, response) => {
 // ERRORS
 // Handle errors
 app.use((error, request, response, next) => {
-    response.status(500).send(error.message);
+    if (error) {
+        response.status(500).send(error.message);
+    } else {
+        next(error);
+    }
+
 })
 
 // CLASSES

@@ -6,7 +6,10 @@ console.log('my first server');
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
+// const weather = require('./Weather');
+// const movie = require('./movie');
 let data = require('./data/weather.json');
+
 
 // we must include cors if we want to share resources over the web
 const cors = require('cors');

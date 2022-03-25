@@ -39,34 +39,38 @@ app.get('/', (request, response) => {
     response.send('hello, from our server!');
 });
 
-app.get('/weather', async (request, response, next) => {
-    try {
-        let lat = request.query.lat;
-        let lon = request.query.lon;
-        let apiForecasts = await axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`);
-        let forecastArray = [];
-        apiForecasts.data.data.map((dataItem) => {
-            forecastArray.push(new Forecast(dataItem.valid_date, dataItem.weather.description));
-        });
-        response.send(forecastArray);
-    } catch (error) {
-        next(error);
-    }
-});
-app.get('/movies', async (request, response, next) => {
-    try {
-        let cityQuery = request.query.city_name;
-        let movieResponse = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
-        let movieArray = [];
-        movieResponse.data.results.map((movieItem) => {
-            movieArray.push(new Movie(movieItem));
-        });
-        console.log(movieResponse.data.results[0]);
-        response.send(movieArray);
-    } catch (error) {
-        next(error);
-    }
-});
+app.get('/weather', getWeather); 
+
+// async function weather (request, response, next) {
+//     try {
+//         let lat = request.query.lat;
+//         let lon = request.query.lon;
+//         let apiForecasts = await axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`);
+//         let forecastArray = [];
+//         apiForecasts.data.data.map((dataItem) => {
+//             forecastArray.push(new Forecast(dataItem.valid_date, dataItem.weather.description));
+//         });
+//         response.send(forecastArray);
+//     } catch (error) {
+//         next(error);
+//     }
+// });
+app.get('/movies', getWeather);
+
+// async function getWeather (request, response, next) {
+//     try {
+//         let cityQuery = request.query.city_name;
+//         let movieResponse = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
+//         let movieArray = [];
+//         movieResponse.data.results.map((movieItem) => {
+//             movieArray.push(new Movie(movieItem));
+//         });
+//         console.log(movieResponse.data.results[0]);
+//         response.send(movieArray);
+//     } catch (error) {
+//         next(error);
+//     }
+// });
 
 
 app.get('*', (request, response) => {

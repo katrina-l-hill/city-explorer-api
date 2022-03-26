@@ -7,7 +7,8 @@ const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
 const getWeather = require('./weather.js');
-const getMovie = require('./movie');
+const getMovie = require('./movies.js');
+
 // let data = require('./data/weather.json');
 
 
@@ -55,12 +56,12 @@ app.get('/weather', getWeather);
 //         next(error);
 //     }
 // });
-app.get('/movie', getMovie);
+app.get('/movies', getMovie);
 
 // async function getWeather (request, response, next) {
 //     try {
 //         let cityQuery = request.query.city_name;
-//         let movieResponse = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
+//         let movieResponse = await axios.get(`https://api.themoviedb.org/3/search/movies?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
 //         let movieArray = [];
 //         movieResponse.data.results.map((movieItem) => {
 //             movieArray.push(new Movie(movieItem));
@@ -89,17 +90,17 @@ app.use((error, request, response, next) => {
 })
 
 // CLASSES
-class City {
-    constructor(cityObject) {
-        this.city_name = cityObject.city_name;
-        this.data = cityObject.data;
-        this.lon = cityObject.lon;
-        this.lat = cityObject.lat;
-        this.country_code = cityObject.country_code;
-        this.state_code = cityObject.state_code;
-        this.forecast = cityObject.forecastArray;
-    }
-}
+// class City {
+//     constructor(cityObject) {
+//         this.city_name = cityObject.city_name;
+//         this.data = cityObject.data;
+//         this.lon = cityObject.lon;
+//         this.lat = cityObject.lat;
+//         this.country_code = cityObject.country_code;
+//         this.state_code = cityObject.state_code;
+//         this.forecast = cityObject.forecastArray;
+//     }
+// }
 
 // This gets moved to the weather.js file
 // class Forecast {

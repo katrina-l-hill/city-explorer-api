@@ -1,12 +1,12 @@
 'use strict';
 
 let cache = require('./cache.js');
+// const axios = require('axios');
 
-module.exports = getWeather;
 
-function getWeather(latitude, longitude) {
-  const key = 'weather-' + latitude + longitude;
-  const url = `http://api.weatherbit.io/v2.0/forecast/daily/?key=${WEATHER_API_KEY}&lang=en&lat=${lat}&lon=${lon}&days=5`;
+function getMovie(latitude, longitude) {
+  const key = 'movies-' + city_name;
+  const url = (`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
 
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
     console.log('Cache hit');
@@ -15,26 +15,28 @@ function getWeather(latitude, longitude) {
     cache[key] = {};
     cache[key].timestamp = Date.now();
     cache[key].data = axios.get(url)
-    .then(response => parseWeather(response.data));
+    .then(response => parseMovies(response.data));
   }
   
   return cache[key].data;
 }
 
-function parseWeather(weatherData) {
+function parseMovies(movieData) {
   try {
-    const weatherSummaries = weatherData.data.map(day => {
-      return new Weather(day);
+    const movieSummaries = movieData.data.map(day => {
+      return new Movie(day);
     });
-    return Promise.resolve(weatherSummaries);
+    return Promise.resolve(movieSummaries);
   } catch (e) {
     return Promise.reject(e);
   }
 }
 
-class Weather {
+class Movie {
   constructor(day) {
-    this.forecast = day.weather.description;
+    this.movie = day.movie.description;
     this.time = day.datetime;
   }
 }
+
+module.exports = getMovie;

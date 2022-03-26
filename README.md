@@ -31,3 +31,5 @@ Actual time needed to complete: _~5 hours. I have a lot more work to do to compl
 ## WRRC
 ![WRRC - Lab06](WRRC.jpg)
 ![WRRC - Lab07](WRRC2.png)
+![WRRC - Lab08](WRRC-lab08.png)
+![WRRC - Lab09](lab09WRRC.png)

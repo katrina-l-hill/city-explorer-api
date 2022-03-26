@@ -10,7 +10,6 @@ async function getMovie (request, response, next) {
         movieResponse.data.results.map((movieItem) => {
             movieArray.push(new Movie(movieItem));
         });
-        console.log(movieResponse.data.results[0]);
         response.send(movieArray);
     } catch (error) {
         next(error);

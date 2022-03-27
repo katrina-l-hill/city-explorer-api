@@ -1,7 +1,7 @@
 'use strict';
 
 let cache = require('./cache.js');
-// const axios = require('axios');
+const axios = require('axios');
 
 
 function getMovie(latitude, longitude) {
@@ -23,8 +23,8 @@ function getMovie(latitude, longitude) {
 
 function parseMovies(movieData) {
   try {
-    const movieSummaries = movieData.data.map(day => {
-      return new Movie(day);
+    const movieSummaries = movieData.data.map(movie => {
+      return new Movie(movie);
     });
     return Promise.resolve(movieSummaries);
   } catch (e) {
@@ -33,9 +33,20 @@ function parseMovies(movieData) {
 }
 
 class Movie {
-  constructor(day) {
-    this.movie = day.movie.description;
-    this.time = day.datetime;
+  constructor(element) {
+    this.adult = element.adult;
+    this.backdrop_path = element.backdrop_path;
+    this.genre_ids = element.genre_ids;
+    this.original_language = element.original_language;
+    this.orginal_title = element.orginal_title;
+    this.overview = element.overview;
+    this.popularity = element.popularity;
+    this.poster_path = element.poster_path;
+    this.release_date = element.release_date;
+    this.title = element.title;
+    this.video = element.video;
+    this.vote_average = element.vote_average;
+    this.vote_count = element.vote_count;
   }
 }
 

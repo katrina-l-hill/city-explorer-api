@@ -3,9 +3,8 @@
 let cache = require('./cache.js');
 const axios = require('axios');
 
-
-function getMovie(latitude, longitude) {
-  const key = 'movies-' + city_name;
+function getMovie(cityQuery) {
+  const key = 'movies-' + cityQuery;
   const url = (`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${cityQuery}`);
 
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
@@ -23,7 +22,7 @@ function getMovie(latitude, longitude) {
 
 function parseMovies(movieData) {
   try {
-    const movieSummaries = movieData.data.map(movie => {
+    const movieSummaries = movieData.results.map(movie => {
       return new Movie(movie);
     });
     return Promise.resolve(movieSummaries);

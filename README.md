@@ -29,8 +29,8 @@ Finish time:
 Actual time needed to complete: ___
 
 ## WRRC
-![WRRC - Lab06](WRRC.jpg)
-![WRRC - Lab07](WRRC2.png)
-![WRRC - Lab08](WRRC-lab08.png)
-![WRRC - Lab09](lab09WRRC.png)
-![WRRC - Lab10](lab10WRRC.png)
+![WRRC - Lab06](./img/WRRC.jpg)
+![WRRC - Lab07](./img/WRRC2.png)
+![WRRC - Lab08](./img/WRRC-lab08.png)
+![WRRC - Lab09](./img/lab09WRRC.png)
+![WRRC - Lab10](./img/lab10WRRC.png)
